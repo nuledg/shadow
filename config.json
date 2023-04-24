@@ -33,7 +33,7 @@
       "type": "shadowtls",
       "tag": "st-in",
       "listen": "::",
-      "listen_port": 443,
+      "listen_port": 4443,
       "version": 3,
       "users": [
         {
