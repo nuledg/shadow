@@ -1,0 +1,91 @@
+{
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "local",
+        "address": "https://1.1.1.1/dns-query",
+        "detour": "direct"
+      },
+      {
+        "tag": "block",
+        "address": "rcode://success"
+      }
+    ],
+    "rules": [
+      {
+        "geosite": "cn",
+        "server": "local"
+      },
+      {
+        "geosite": "category-ads-all",
+        "server": "block",
+        "disable_cache": true
+      }
+    ]
+  },
+  "inbounds": [
+    {
+      "type": "shadowtls",
+      "tag": "st-in",
+      "listen": "::",
+      "listen_port": 443,
+      "version": 3,
+      "users": [
+        {
+          "name": "rodd",
+          "password": "XTVsAyFnREiRn5hgrjUAu8a9dSsicFKYIJM+K8+Iv8g="
+        }
+      ],
+      "handshake": {
+        "server": "www.apple.com",
+        "server_port": 443
+      },
+      "strict_mode": true,
+      "detour": "ss-in"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ss-in",
+      "listen": "127.0.0.1",
+      "network": "tcp",
+      "method": "aes-128-gcm",
+      "password": "NZew3ZrmZjxullszmAKtfu+pZh0F1dxnIPcwlaStjyI="
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+  "route": {
+    "geoip": {
+      "download_url": "https://github.com/SagerNet/sing-geoip/releases/latest/download/geoip.db",
+      "download_detour": "direct"
+    },
+    "geosite": {
+      "download_url": "https://github.com/SagerNet/sing-geosite/releases/latest/download/geosite.db",
+      "download_detour": "direct"
+    },
+    "rules": [
+      {
+        "geosite": "cn",
+        "geoip": "cn",
+        "outbound": "direct"
+      },
+      {
+        "geosite": "category-ads-all",
+        "outbound": "block"
+      }
+    ]
+  }
+}
