@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-EXPOSE 443
+EXPOSE 80
 USER root
 
 RUN apt-get update && apt-get install -y wget git bash
